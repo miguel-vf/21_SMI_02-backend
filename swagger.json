@@ -1,0 +1,336 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Book store",
+      "description": "This is the server for a book store.",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "<URL of your production server>",
+        "description": "Production backend"
+      },
+      {
+        "url": "http://localhost:3000",
+        "description": "Development backend"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Books",
+        "description": "Access to books"
+      },
+      {
+        "name": "Auth",
+        "description": "Authentication operations"
+      }
+    ],
+    "paths": {
+      "/books": {
+        "get": {
+          "tags": [
+            "Books"
+          ],
+          "summary": "Get all books of the store",
+          "operationId": "getBooks",
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Book"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "tags": [
+            "Books"
+          ],
+          "summary": "Add a new book to the store",
+          "operationId": "addBook",
+          "requestBody": {
+            "description": "Book object that needs to be added to the store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "author": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Book"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Invalid input",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "body"
+        }
+      },
+      "/books/{id}": {
+        "get": {
+          "tags": [
+            "Books"
+          ],
+          "summary": "Get a book",
+          "operationId": "getBook",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Book id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Book"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Book not found",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/books/{id}/upload": {
+        "post": {
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "tags": [
+            "Books"
+          ],
+          "summary": "Upload the image of a book cover",
+          "operationId": "uploadCover",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Book id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "properties": {
+                    "coverfile": {
+                      "type": "string",
+                      "description": "The image file to upload.",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Book"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Book not found",
+              "content": {}
+            },
+            "422": {
+              "description": "Invalid input",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/signup": {
+        "post": {
+          "tags": [
+            "Auth"
+          ],
+          "summary": "Register a user",
+          "operationId": "signup",
+          "requestBody": {
+            "description": "User object to register",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "201": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Invalid input",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "body"
+        }
+      },
+      "/login": {
+        "post": {
+          "tags": [
+            "Auth"
+          ],
+          "summary": "Login a user",
+          "operationId": "login",
+          "requestBody": {
+            "description": "User object to register",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "username": {
+                        "type": "string"
+                      },
+                      "token": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {}
+            },
+            "422": {
+              "description": "Invalid input",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "body"
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Book": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "title": {
+              "type": "string"
+            },
+            "author": {
+              "type": "string"
+            },
+            "cover": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    }
+  }
