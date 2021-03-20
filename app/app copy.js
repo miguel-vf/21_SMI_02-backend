@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-//const fileUpload = require('express-fileupload');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 
@@ -15,17 +15,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Parse requests of content-type: multipart/form-data
-//app.use(fileUpload({ createParentPath: true }));
+app.use(fileUpload({ createParentPath: true }));
 
 // Synchronize models with the database
-//const db = require("./models");
-//db.sequelize.sync();
+const db = require("./models");
+db.sequelize.sync();
 
 app.get('/', (req, res) => {
-    res.send('This is an API to a video page');
+    res.send('This is an API to a book store');
 });
 
-require('./routes/video.routes')(app);
-//require("./routes/auth.routes.js")(app);
+require('./routes/book.routes')(app);
+require("./routes/auth.routes.js")(app);
 
 module.exports = app;
