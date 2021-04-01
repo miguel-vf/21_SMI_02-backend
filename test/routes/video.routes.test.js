@@ -39,6 +39,21 @@ describe('Get videos: ', () => {
                 done();
             });
     });
+    /**
+     * Get an existing video correctly
+     */
+    it('should get all videos', (done) => {
+        chai.request(app)
+            .get(VIDEO_URI)
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res).to.be.json;
+                expect(res.body).to.be.array();
+                expect(res.body.length).to.equal(2);
+                done();
+            });
+    });
+
 });
 
 describe('Create videos: ', () => {
@@ -128,4 +143,48 @@ describe('Create videos: ', () => {
                 done();
             });
     });
+});
+
+describe('Upload video covers: ', () => {
+
+    /**
+     * Populate database with some data before all the tests in this suite.
+     */
+    before(async () => {
+        await utils.populateVideos();
+        await utils.populateUsers();
+        token = await utils.login('Username1', 'Password1');
+    });
+
+    /**
+     * This is run once after all the tests.
+     */
+    after(async () => {
+        await utils.dropVideos();
+        await utils.dropUsers();
+    });
+
+    /**
+     * A Video cover should be uploaded correctly
+     */
+    it('should upload a Video cover', (done) => {
+        chai.request(app)
+            .post(VIDEO_URI + '/2/upload')
+            .set('Authorization', 'Bearer ' + token)
+            .attach('coverFile', fs.readFileSync('./test/assets/cover.png'), 'cover.png')
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res).to.be.json;
+                expect(res.body.id).to.be.equal(2);
+                expect(res.body.title).to.be.equal('La vida es sueño');
+                expect(res.body.author).to.be.equal('Calderón de la Barca');
+                expect(res.body.cover).to.be.equal('/covers/cover-2.png');
+                done();
+            });
+    }).timeout(5000);  // Timeout 5 secs
+
+
+    /**
+     * TODO: tests for invalid upoloads
+     */
 });

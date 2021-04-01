@@ -8,3 +8,5 @@ module.exports = (app) => {
     app.get(`${baseRoute}/:id`, controller.get);
     app.post(`${baseRoute}/:id/upload`, validator.upload, controller.upload);
 }
+
+
