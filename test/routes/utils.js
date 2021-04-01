@@ -17,10 +17,16 @@ module.exports.dropVideos = async () => {
     //await Video.destroy({  truncate: true, force: true, restartIdentity: true });
 }
 module.exports.populateUsers = async () => {
-    await Video.create();
+    await Video.create( { title: 'Lasagna', author: 'Pewdiepie' } );
+    await Video.create( { title: 'El baptisterio romano', author: 'Señora random' } );
+}
+
+module.exports.dropUsers = async () => {
+    await Video.drop();
     //await Video.destroy({  truncate: true, force: true, restartIdentity: true });
 }
-module.exports.dropUsers = async () => {
+
+module.exports.login = async () => {
     await Video.drop();
     //await Video.destroy({  truncate: true, force: true, restartIdentity: true });
 }

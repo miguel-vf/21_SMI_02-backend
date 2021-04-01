@@ -171,15 +171,15 @@ describe('Upload video covers: ', () => {
         chai.request(app)
             .post(VIDEO_URI + '/2/upload')
             .set('Authorization', 'Bearer ' + token)
-            .attach('coverFile', fs.readFileSync('./test/assets/cover.png'), 'cover.png')
+            //.attach('coverFile', fs.readFileSync('./test/assets/cover.png'), 'cover.png')
             .end((err, res) => {
-                expect(res).to.have.status(200);
-                expect(res).to.be.json;
-                expect(res.body.id).to.be.equal(2);
-                expect(res.body.title).to.be.equal('La vida es sueño');
-                expect(res.body.author).to.be.equal('Calderón de la Barca');
-                expect(res.body.cover).to.be.equal('/covers/cover-2.png');
-                done();
+            expect(res).to.have.status(200);
+            expect(res).to.be.json;
+            expect(res.body.id).to.be.equal(2);
+            expect(res.body.title).to.be.equal('title');
+            expect(res.body.author).to.be.equal('author');
+            expect(res.body.id).to.equal(3);
+            done();
             });
     }).timeout(5000);  // Timeout 5 secs
 
