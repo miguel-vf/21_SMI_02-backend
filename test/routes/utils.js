@@ -13,6 +13,5 @@ module.exports.populateVideos = async () => {
 }
 
 module.exports.dropVideos = async () => {
-    await Video.drop();
-    //await Video.destroy({  truncate: true, force: true, restartIdentity: true });
+    await Video.destroy({  truncate: true, force: true, restartIdentity: true });
 }
