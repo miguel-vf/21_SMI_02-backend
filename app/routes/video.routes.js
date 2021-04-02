@@ -5,4 +5,5 @@ module.exports = (app) => {
 
     app.get(baseRoute, controller.getAll);
     app.post(baseRoute, validator.create, controller.create);
+    app.get(`${baseRoute}/:id`, controller.get);
 }

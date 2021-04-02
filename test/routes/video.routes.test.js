@@ -39,6 +39,22 @@ describe('Get videos: ', () => {
                 done();
             });
     });
+
+    /**
+     * Get an existing video correctly
+     */
+    it('should get a video', (done) => {
+        chai.request(app)
+            .get(VIDEO_URI + '/2')
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res).to.be.json;
+                expect(res.body.id).to.be.equal(2);
+                expect(res.body.title).to.be.equal('El baptisterio romano');
+                expect(res.body.author).to.be.equal('Señora random');
+                done();
+            });
+    });
 });
 
 describe('Create videos: ', () => {
