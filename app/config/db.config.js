@@ -2,7 +2,7 @@ const host = process.env.DATABASE_HOST || 'localhost';
 const port = process.env.DATABASE_PORT || '3306';
 const user = process.env.DATABASE_USER || 'user';
 const password = process.env.DATABASE_PASSWORD || 'password';
-const database = process.env.DATABASE_NAME || 'book-store';
+const database = process.env.DATABASE_NAME || 'videos-page';
 
 module.exports = {
     HOST: host,

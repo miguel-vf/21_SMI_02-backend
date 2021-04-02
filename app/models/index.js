@@ -22,7 +22,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // Load models
-db.Book = require('./book.model')(sequelize, Sequelize);
+db.Video = require('./video.model')(sequelize, Sequelize);
 db.User = require('./user.model')(sequelize, Sequelize);
 
 module.exports = db;

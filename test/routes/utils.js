@@ -1,4 +1,4 @@
-const Video = require('../../app/models/video.model');
+const Video = require('../../app/models').Video;
 /*
 const bcrypt = require('bcrypt');
 const config = require('../../app/config/auth.config');

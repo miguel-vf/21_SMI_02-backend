@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(fileUpload({ createParentPath: true }));
 
 // Synchronize models with the database
-//const db = require("./models");
-//db.sequelize.sync();
+const db = require("./models");
+db.sequelize.sync();
 
 app.get('/', (req, res) => {
     res.send('This is an API to a video page');

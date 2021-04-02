@@ -1,5 +1,5 @@
-const userModel = require('../models/user.model.js');
-const Video = require('../models/video.model.js');
+//const userModel = require('../models/user.model.js');
+const Video = require('../models').Video;
 
 module.exports.getAll = async (req, res, next) =>{
     const videos = await Video.findAll();
@@ -14,7 +14,7 @@ module.exports.create = async (req, res, next) => {
 // Get an existing video
 module.exports.get = async (req, res, next) => {
     // No validation needed
-    const video = await Video.findById( req.params.id );
+    const video = await Video.findByPk( req.params.id );
     if (video) {
         res.status(200).json(video);
     }
