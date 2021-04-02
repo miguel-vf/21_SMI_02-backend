@@ -26,6 +26,6 @@ app.get('/', (req, res) => {
 });
 
 require('./routes/video.routes')(app);
-//require("./routes/auth.routes.js")(app);
+require("./routes/auth.routes.js")(app);
 
 module.exports = app;

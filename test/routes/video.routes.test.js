@@ -59,11 +59,16 @@ describe('Get videos: ', () => {
 
 describe('Create videos: ', () => {
 
+    // Auth token
+    let token;
+
     /**
      * Populate database with some data before all the tests in this suite.
      */
     before(async () => {        
         await utils.populateVideos();
+        await utils.populateUsers();
+        token = await utils.login('Username1', 'Password1');
     });
 
     /**
@@ -71,6 +76,7 @@ describe('Create videos: ', () => {
      */
     after(async () => {
         await utils.dropVideos();
+        await utils.dropUsers();
     });
 
     /**
@@ -81,6 +87,7 @@ describe('Create videos: ', () => {
         const author = "Another author";
         chai.request(app)
             .post(VIDEO_URI)
+            .set('Authorization', 'Bearer ' + token)
             .send({ title: title, author: author})
             .end((err, res) => {
                 expect(res).to.have.status(201);
@@ -98,6 +105,7 @@ describe('Create videos: ', () => {
      it('should receive an error with an invalid title', (done) => {
         chai.request(app)
             .post(VIDEO_URI)
+            .set('Authorization', 'Bearer ' + token)
             .send({ title: "", author: "unknown author"})
             .end((err, res) => {
                 expect(res).to.have.status(422);
@@ -111,6 +119,7 @@ describe('Create videos: ', () => {
      it('should receive an error with a missing title', (done) => {
         chai.request(app)
             .post(VIDEO_URI)
+            .set('Authorization', 'Bearer ' + token)
             .send({ author: "unknown author"})
             .end((err, res) => {
                 expect(res).to.have.status(422);
@@ -124,6 +133,7 @@ describe('Create videos: ', () => {
      it('should receive an error with an invalid author', (done) => {
         chai.request(app)
             .post(VIDEO_URI)
+            .set('Authorization', 'Bearer ' + token)
             .send({ title: "Some title", author: "a"})
             .end((err, res) => {
                 expect(res).to.have.status(422);
@@ -138,6 +148,7 @@ describe('Create videos: ', () => {
      it('should receive an error with a missing author', (done) => {
         chai.request(app)
             .post(VIDEO_URI)
+            .set('Authorization', 'Bearer ' + token)
             .send({ title: "unknown title"})
             .end((err, res) => {
                 expect(res).to.have.status(422);

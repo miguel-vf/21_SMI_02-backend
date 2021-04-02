@@ -8,7 +8,7 @@ before(done => {
 });
 
 require('./routes/video.routes.test');
-//require('./routes/auth.routes.test');
+require('./routes/auth.routes.test');
 
 // Shutdown server
 after(async () => {

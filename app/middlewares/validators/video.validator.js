@@ -1,6 +1,9 @@
 const {body, validationResult} = require('express-validator');
+const jwt = require('express-jwt');
+const auth = require('../../config/auth.config');
 
 module.exports.create = [
+  jwt({ secret: auth.secret, algorithms: [ auth.algorithm ] }),
   body('title')
     .trim()
     .escape()
