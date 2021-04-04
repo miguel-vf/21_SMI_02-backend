@@ -10,7 +10,7 @@ const expect = require('chai').expect;
 
 module.exports.populateVideos = async () => {
     await Video.create( { title: 'Lasagna', author: 'Pewdiepie' } );
-    await Video.create( { title: 'El baptisterio romano', author: 'Señora random' } );
+    await Video.create( { title: 'El baptisterio romano', author: 'Encarnita' } );
 }
 
 module.exports.dropVideos = async () => {

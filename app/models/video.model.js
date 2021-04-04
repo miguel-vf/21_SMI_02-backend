@@ -12,12 +12,12 @@ module.exports = (sequelize, Sequelize) => {
         author: {
             type: Sequelize.STRING,
             allowNull: false
-        }/*,
-        cover: {
+        },
+        file: {
             type: Sequelize.STRING,
             allowNull: true,
-            defaultValue: '/covers/default.png'
-        }*/
+            defaultValue: '/videos/default.mp4'
+        }
     });
 
     return Video;

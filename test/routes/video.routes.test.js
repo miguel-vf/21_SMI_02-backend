@@ -2,6 +2,7 @@ const app = require('../../app/app');
 const chai = require('chai');
 const expect = require('chai').expect;
 const utils = require('./utils');
+const fs = require('fs');
 
 chai.use(require('chai-http'));
 chai.use(require('chai-arrays'));
@@ -51,7 +52,7 @@ describe('Get videos: ', () => {
                 expect(res).to.be.json;
                 expect(res.body.id).to.be.equal(2);
                 expect(res.body.title).to.be.equal('El baptisterio romano');
-                expect(res.body.author).to.be.equal('Señora random');
+                expect(res.body.author).to.be.equal('Encarnita');
                 done();
             });
     });
@@ -155,4 +156,48 @@ describe('Create videos: ', () => {
                 done();
             });
     });
+});
+
+describe('Upload videos: ', () => {
+
+    /**
+     * Populate database with some data before all the tests in this suite.
+     */
+    before(async () => {
+        await utils.populateVideos();
+        await utils.populateUsers();
+        token = await utils.login('Username1', 'Password1');
+    });
+
+    /**
+     * This is run once after all the tests.
+     */
+    after(async () => {
+        await utils.dropVideos();
+        await utils.dropUsers();
+    });
+
+    /**
+     * A video should be uploaded correctly
+     */
+    it('should upload a video', (done) => {
+        chai.request(app)
+            .post(VIDEO_URI + '/2/upload')
+            .set('Authorization', 'Bearer ' + token)
+            .attach('videoFile', fs.readFileSync('./test/assets/video.mp4'), 'video.mp4')
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res).to.be.json;
+                expect(res.body.id).to.be.equal(2);
+                expect(res.body.title).to.be.equal('El baptisterio romano');
+                expect(res.body.author).to.be.equal('Encarnita');
+                expect(res.body.file).to.be.equal('/videos/video-2.mp4');
+                done();
+            });
+    }).timeout(8000);  // Timeout 8 secs
+
+
+    /**
+     * TODO: tests for invalid upoloads
+     */
 });
