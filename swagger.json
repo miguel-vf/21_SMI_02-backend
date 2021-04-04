@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.1",
     "info": {
-      "title": "Book store",
-      "description": "This is the server for a book store.",
+      "title": "Video page",
+      "description": "This is the server for a video page.",
       "version": "1.0.0"
     },
     "servers": [
@@ -17,8 +17,8 @@
     ],
     "tags": [
       {
-        "name": "Books",
-        "description": "Access to books"
+        "name": "Videos",
+        "description": "Access to videos"
       },
       {
         "name": "Auth",
@@ -26,13 +26,13 @@
       }
     ],
     "paths": {
-      "/books": {
+      "/videos": {
         "get": {
           "tags": [
-            "Books"
+            "Videos"
           ],
-          "summary": "Get all books of the store",
-          "operationId": "getBooks",
+          "summary": "Get all videos of the store",
+          "operationId": "getVideos",
           "responses": {
             "200": {
               "description": "Successful operation",
@@ -41,7 +41,7 @@
                   "schema": {
                     "type": "array",
                     "items": {
-                      "$ref": "#/components/schemas/Book"
+                      "$ref": "#/components/schemas/video"
                     }
                   }
                 }
@@ -56,12 +56,12 @@
             }
           ],
           "tags": [
-            "Books"
+            "Videos"
           ],
-          "summary": "Add a new book to the store",
-          "operationId": "addBook",
+          "summary": "Add a new video to the store",
+          "operationId": "addVideo",
           "requestBody": {
-            "description": "Book object that needs to be added to the store",
+            "description": "Video object that needs to be added to the store",
             "content": {
               "application/json": {
                 "schema": {
@@ -85,7 +85,7 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/Book"
+                    "$ref": "#/components/schemas/video"
                   }
                 }
               }
@@ -98,18 +98,18 @@
           "x-codegen-request-body-name": "body"
         }
       },
-      "/books/{id}": {
+      "/videos/{id}": {
         "get": {
           "tags": [
-            "Books"
+            "Videos"
           ],
-          "summary": "Get a book",
-          "operationId": "getBook",
+          "summary": "Get a video",
+          "operationId": "getVideo",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "Book id",
+              "description": "Video id",
               "required": true,
               "schema": {
                 "type": "integer"
@@ -122,19 +122,19 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/Book"
+                    "$ref": "#/components/schemas/video"
                   }
                 }
               }
             },
             "404": {
-              "description": "Book not found",
+              "description": "Video not found",
               "content": {}
             }
           }
         }
       },
-      "/books/{id}/upload": {
+      "/videos/{id}/upload": {
         "post": {
           "security": [
             {
@@ -142,15 +142,15 @@
             }
           ],
           "tags": [
-            "Books"
+            "Videos"
           ],
-          "summary": "Upload the image of a book cover",
-          "operationId": "uploadCover",
+          "summary": "Upload the image of a video file",
+          "operationId": "uploadFile",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "Book id",
+              "description": "Video id",
               "required": true,
               "schema": {
                 "type": "integer"
@@ -162,9 +162,9 @@
               "multipart/form-data": {
                 "schema": {
                   "properties": {
-                    "coverfile": {
+                    "videofile": {
                       "type": "string",
-                      "description": "The image file to upload.",
+                      "description": "The video file to upload.",
                       "format": "binary"
                     }
                   }
@@ -178,13 +178,13 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/Book"
+                    "$ref": "#/components/schemas/video"
                   }
                 }
               }
             },
             "404": {
-              "description": "Book not found",
+              "description": "Video not found",
               "content": {}
             },
             "422": {
@@ -307,7 +307,7 @@
     },
     "components": {
       "schemas": {
-        "Book": {
+        "video": {
           "type": "object",
           "properties": {
             "id": {
@@ -319,7 +319,7 @@
             "author": {
               "type": "string"
             },
-            "cover": {
+            "file": {
               "type": "string"
             }
           }
