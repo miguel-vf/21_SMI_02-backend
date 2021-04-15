@@ -30,6 +30,7 @@ module.exports.create = [
   },
 ];
 
+// Modify this upload to use the encoding file
 module.exports.upload = [
   jwt({ secret: auth.secret, algorithms: [ auth.algorithm ] }),
   param('id', 'missing video id')
@@ -42,6 +43,12 @@ module.exports.upload = [
       switch (extension) {
         case '.mp4':
           return '.mp4';
+        case '.mov':
+          return '.mov';
+        case '.avi':
+          return '.avi';
+        case '.wmv':
+          return '.wmv';
         default:
           return false;
       }

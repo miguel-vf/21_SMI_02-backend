@@ -1,6 +1,9 @@
 const Video = require('../models').Video;
 const path = require('path');
 
+const encoding = require('../media/encoding');
+// Remove the commented lines to implement video encoding in the upload
+
 module.exports.getAll = async (req, res, next) =>{
     const videos = await Video.findAll();
     res.status(200).json(videos);
@@ -34,7 +37,9 @@ module.exports.upload = async (req, res, next) => {
 
         // Move file
         const videoFile = req.files.videoFile;
-        const extension = path.extname(videoFile.name);
+        const outputFile = await encoding.normalize(videoFile.name);
+        //const extension = path.extname(videoFile.name);     // 
+        const extension = path.extname(outputFile);
         const destination = '/videos/video-' + video.id + extension;
         videoFile.mv(destination);
 

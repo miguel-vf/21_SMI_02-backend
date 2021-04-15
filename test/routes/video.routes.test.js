@@ -7,6 +7,9 @@ const fs = require('fs');
 chai.use(require('chai-http'));
 chai.use(require('chai-arrays'));
 
+const sinon = require('sinon');
+const mediaEncoding = require('../../app/media/encoding');
+
 const VIDEO_URI = '/videos';
 
 
@@ -167,6 +170,8 @@ describe('Upload videos: ', () => {
         await utils.populateVideos();
         await utils.populateUsers();
         token = await utils.login('Username1', 'Password1');
+        // Mock normalize function
+        sinon.stub(mediaEncoding, 'normalize').resolves('/videos/video-2.mp4'); // Do nothing
     });
 
     /**
@@ -175,6 +180,9 @@ describe('Upload videos: ', () => {
     after(async () => {
         await utils.dropVideos();
         await utils.dropUsers();
+        // Restore normalize function
+        mediaEncoding.normalize.restore();
+        // sinon functions can be erased if ffmpeg and video.mp4 are in the directory
     });
 
     /**
