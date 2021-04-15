@@ -182,7 +182,7 @@ describe('Upload videos: ', () => {
         await utils.dropUsers();
         // Restore normalize function
         mediaEncoding.normalize.restore();
-        // sinon functions can be erased if ffmpeg and video.mp4 are in the directory
+        // Sinon functions can be erased if ffmpeg and video.mp4 are in the directory
     });
 
     /**
@@ -206,6 +206,18 @@ describe('Upload videos: ', () => {
 
 
     /**
-     * TODO: tests for invalid upoloads
+     * Test for invalid uploads
      */
+
+     it('should receive an error with not a video', (done) => {
+        chai.request(app)
+            .post(VIDEO_URI + '/2/upload')
+            .set('Authorization', 'Bearer ' + token)
+            .attach('videoFile', fs.readFileSync('./test/assets/cover.png'), 'cover.png')
+            .end((err, res) => {
+                expect(res).to.have.status(422);
+                done();
+            });
+    }).timeout(5000);  // Timeout 5 secs
+
 });
