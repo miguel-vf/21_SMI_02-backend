@@ -10,7 +10,7 @@ module.exports.getAll = async (req, res, next) =>{
 }
 
 module.exports.create = async (req, res, next) => {
-    const video = await Video.create( { title: req.body.title, author: req.body.author } );
+    const video = await Video.create( { title: req.body.title, author: req.body.author, description: req.body.description } );
     res.status(201).json(video);
 }
 

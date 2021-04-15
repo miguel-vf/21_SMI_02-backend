@@ -159,6 +159,28 @@ describe('Create videos: ', () => {
                 done();
             });
     });
+
+    /**
+     * A video can have a description
+     */
+     it('should create a video with description', (done) => {
+        const title = "Another video2";
+        const author = "Another author";
+        const description = "This is a video";
+        chai.request(app)
+            .post(VIDEO_URI)
+            .set('Authorization', 'Bearer ' + token)
+            .send({ title: title, author: author, description: description })
+            .end((err, res) => {
+                expect(res).to.have.status(201);
+                expect(res).to.be.json;
+                expect(res.body.title).to.be.equal(title);
+                expect(res.body.author).to.be.equal(author);
+                expect(res.body.description).to.be.equal(description);
+                expect(res.body.id).to.equal(4);
+                done();
+            });
+    });
 });
 
 describe('Upload videos: ', () => {

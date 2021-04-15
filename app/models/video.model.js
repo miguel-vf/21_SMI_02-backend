@@ -17,6 +17,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: true,
             defaultValue: '/videos/default.mp4'
+        },
+        description: {
+            type: Sequelize.STRING,
+            allowNull: true
         }
     });
 
