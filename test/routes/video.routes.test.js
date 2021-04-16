@@ -243,3 +243,63 @@ describe('Upload videos: ', () => {
     }).timeout(5000);  // Timeout 5 secs
 
 });
+
+describe('Upload thumbnails: ', () => {
+
+    /**
+     * Populate database with some data before all the tests in this suite.
+     */
+    before(async () => {
+        await utils.populateVideos();
+        await utils.populateUsers();
+        token = await utils.login('Username1', 'Password1');
+        // Mock normalize function
+        sinon.stub(mediaEncoding, 'normalize').resolves('/images/video-2.png'); // Do nothing
+    });
+
+    /**
+     * This is run once after all the tests.
+     */
+    after(async () => {
+        await utils.dropVideos();
+        await utils.dropUsers();
+        // Restore normalize function
+        mediaEncoding.normalize.restore();
+    });
+
+    /**
+     * A video thumbnail should be uploaded correctly
+     */
+    it('should upload a thumbnail', (done) => {
+        chai.request(app)
+            .post(VIDEO_URI + '/2/upload/thumbnail')
+            .set('Authorization', 'Bearer ' + token)//
+            .attach('thumbFile', fs.readFileSync('./test/assets/cover.png'), 'cover.png')
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res).to.be.json;
+                expect(res.body.id).to.be.equal(2);
+                expect(res.body.title).to.be.equal('El baptisterio romano');
+                expect(res.body.author).to.be.equal('Encarnita');
+                expect(res.body.thumbnail).to.be.equal('/images/video-2.png');
+                done();
+            });
+    }).timeout(8000);  // Timeout 8 secs
+
+
+    /**
+     * Test for invalid thumbnail uploads
+     */
+
+     it('should receive an error with not a thumbnail', (done) => {
+        chai.request(app)
+            .post(VIDEO_URI + '/2/upload/thumbnail')
+            .set('Authorization', 'Bearer ' + token)//
+            .attach('thumbFile', fs.readFileSync('./test/assets/video.mp4'), 'video.mp4')
+            .end((err, res) => {
+                expect(res).to.have.status(422);
+                done();
+            });
+    }).timeout(5000);  // Timeout 5 secs
+
+});

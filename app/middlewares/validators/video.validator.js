@@ -30,7 +30,6 @@ module.exports.create = [
   },
 ];
 
-// Modify this upload to use the encoding file
 module.exports.upload = [
   jwt({ secret: auth.secret, algorithms: [ auth.algorithm ] }),
   param('id', 'missing video id')
@@ -49,6 +48,33 @@ module.exports.upload = [
           return '.avi';
         case '.wmv':
           return '.wmv';
+        default:
+          return false;
+      }
+    })
+    .bail(),
+  (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty())
+        return res.status(422).json({errors: errors.array()});
+      next();
+  },
+];
+
+module.exports.uploadThumb = [
+  jwt({ secret: auth.secret, algorithms: [ auth.algorithm ] }),
+  param('id', 'missing video id')
+    .exists()
+    .isNumeric()
+    .bail(),
+  body('thumbFile', 'Please upload thumbnail file!')
+    .custom((value, { req }) => {
+      const extension = (path.extname(req.files.thumbFile.name)).toLowerCase();
+      switch (extension) {
+        case '.jpg':
+          return '.jpg';
+        case '.png':
+          return '.png';
         default:
           return false;
       }

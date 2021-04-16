@@ -21,6 +21,11 @@ module.exports = (sequelize, Sequelize) => {
         description: {
             type: Sequelize.STRING,
             allowNull: true
+        },
+        thumbnail: {
+            type: Sequelize.STRING,
+            allowNull: true,
+            defaultValue: '/images/default.png'
         }
     });
 

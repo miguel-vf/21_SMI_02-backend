@@ -26,7 +26,7 @@ module.exports.get = async (req, res, next) => {
     }
 };
 
-// Upload file to an existing video
+// Upload video file to an existing video
 module.exports.upload = async (req, res, next) => {
     try {
         const video = await Video.findByPk( req.params.id );
@@ -45,6 +45,32 @@ module.exports.upload = async (req, res, next) => {
 
         // Update video
         await video.update({ file: destination });
+        res.status(200).json(video);
+    }
+    catch (error) {
+        return next(error);
+    }
+};
+
+// Upload thumbnail to an existing video
+module.exports.uploadThumb = async (req, res, next) => {
+    try {
+        const video = await Video.findByPk( req.params.id );
+        if (!video) {
+            res.status(404).end();
+            return;
+        }
+
+        // Move file
+        const thumbFile = req.files.thumbFile;
+        const outFile = await encoding.normalize(thumbFile.name);
+        //const extension = path.extname(videoFile.name);     // 
+        const extension = path.extname(outFile);
+        const destination = '/images/video-' + video.id + extension;
+        thumbFile.mv(destination);
+
+        // Update thumbnail
+        await video.update({ thumbnail: destination });
         res.status(200).json(video);
     }
     catch (error) {
