@@ -194,6 +194,7 @@ describe('Upload videos: ', () => {
         token = await utils.login('Username1', 'Password1');
         // Mock normalize function
         sinon.stub(mediaEncoding, 'normalize').resolves('/videos/video-2.mp4'); // Do nothing
+        sinon.stub(mediaEncoding, 'createThumbnail').resolves('/images/video-2.jpg'); // Do nothing
     });
 
     /**
@@ -204,6 +205,7 @@ describe('Upload videos: ', () => {
         await utils.dropUsers();
         // Restore normalize function
         mediaEncoding.normalize.restore();
+        mediaEncoding.createThumbnail.restore();
         // Sinon functions can be erased if ffmpeg and video.mp4 are in the directory
     });
 
@@ -222,6 +224,7 @@ describe('Upload videos: ', () => {
                 expect(res.body.title).to.be.equal('El baptisterio romano');
                 expect(res.body.author).to.be.equal('Encarnita');
                 expect(res.body.file).to.be.equal('/videos/video-2.mp4');
+                expect(res.body.thumbnail).to.be.equal('/images/video-2.jpg');
                 done();
             });
     }).timeout(8000);  // Timeout 8 secs

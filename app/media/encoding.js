@@ -1,4 +1,3 @@
-
 const path = require('path');
 const child_process = require('child_process');
 
@@ -8,7 +7,7 @@ const formats = [
     ".avi",
     ".wmv"
 ];
-// Check this function!!!!
+// Check this function!!!! It works :3
 exports.normalize = (videoFileName) => {
     return new Promise((resolve, reject) => {
         const parsedFilename = path.parse(videoFileName);
@@ -28,5 +27,24 @@ exports.normalize = (videoFileName) => {
             }
             resolve(outputFilenamePath);
             });
+    });
+}
+
+exports.createThumbnail = (videoFileName) => {
+    return new Promise((resolve, reject) => {
+      const parsedFilename = path.parse(videoFileName);
+      const outputFilename = `${parsedFilename.name}.jpg`
+      // /videos is the shared volume with nginx http server
+      const outputFilenamePath = `/images/${outputFilename}`;
+      // ffmpeg command to extract a frame at the beginning of video and copy it to ${outputFilePath} 
+      const command = `ffmpeg -ss 00:00:01 -i ${videoFileName} -vframes 1 -q:v 4 ${outputFilenamePath}`;
+
+      // Encode
+      child_process.exec(command, (err, stdout, stderr) => {
+        if (err) {
+          return reject(new Error(`Encoding error. ${stderr}`));
+        }
+        resolve(outputFilenamePath);
+      });
     });
 }

@@ -45,6 +45,17 @@ module.exports.upload = async (req, res, next) => {
 
         // Update video
         await video.update({ file: destination });
+
+        // Move file
+        const thumbFile = req.files.videoFile;
+        const outFileT = await encoding.createThumbnail(thumbFile.name);
+        //const extension = path.extname(videoFile.name);     // 
+        const extensionT = path.extname(outFileT);
+        const destinationT = '/images/video-' + video.id + extensionT;
+        thumbFile.mv(destinationT);
+
+        // Update thumbnail
+        await video.update({ thumbnail: destinationT });
         res.status(200).json(video);
     }
     catch (error) {
