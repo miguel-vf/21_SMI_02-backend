@@ -1,7 +1,8 @@
 FROM node:12
 
 # Install packages
-RUN apt-get update -q \ && apt-get install -qy ffmpeg
+RUN apt-get update -q \ 
+    && apt-get install -qy ffmpeg
 
 # Create service directory
 WORKDIR /usr/src/service

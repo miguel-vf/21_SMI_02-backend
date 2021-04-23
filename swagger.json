@@ -144,7 +144,7 @@
           "tags": [
             "Videos"
           ],
-          "summary": "Upload the image of a video file",
+          "summary": "Upload the file of a video",
           "operationId": "uploadFile",
           "parameters": [
             {
