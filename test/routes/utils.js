@@ -25,21 +25,6 @@ module.exports.populateUsers = async () => {
 module.exports.dropUsers = async () => {
     await User.destroy({  truncate: true, force: true, restartIdentity: true });
 }
-<<<<<<< HEAD
-module.exports.populateUsers = async () => {
-    await Video.create( { title: 'Lasagna', author: 'Pewdiepie' } );
-    await Video.create( { title: 'El baptisterio romano', author: 'Señora random' } );
-}
-
-module.exports.dropUsers = async () => {
-    await Video.drop();
-    //await Video.destroy({  truncate: true, force: true, restartIdentity: true });
-}
-
-module.exports.login = async () => {
-    await Video.drop();
-    //await Video.destroy({  truncate: true, force: true, restartIdentity: true });
-=======
 
 module.exports.login = (username, password) => {
     return new Promise((resolve, reject) => {
@@ -53,5 +38,4 @@ module.exports.login = (username, password) => {
                 resolve(res.body.token);
             });
         });
->>>>>>> old-project-state
 }

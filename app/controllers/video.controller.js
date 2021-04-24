@@ -13,10 +13,6 @@ module.exports.create = async (req, res, next) => {
     const video = await Video.create( { title: req.body.title, author: req.body.author, description: req.body.description } );
     res.status(201).json(video);
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> old-project-state
 // Get an existing video
 module.exports.get = async (req, res, next) => {
     // No validation needed
@@ -25,19 +21,11 @@ module.exports.get = async (req, res, next) => {
         res.status(200).json(video);
     }
     else {
-<<<<<<< HEAD
-        res.status(404).end(); // not found 
-    }
-};
-
-// Upload cover image to an existing video
-=======
         res.status(404).end();
     }
 };
 
 // Upload video file to an existing video
->>>>>>> old-project-state
 module.exports.upload = async (req, res, next) => {
     try {
         const video = await Video.findByPk( req.params.id );
@@ -46,16 +34,6 @@ module.exports.upload = async (req, res, next) => {
             return;
         }
 
-<<<<<<< HEAD
-        // Move cover file
-        const coverFile = req.files.coverFile;
-        const extension = path.extname(coverFile.name);
-        const destination = '/covers/cover-' + book.id + extension;
-        coverFile.mv(destination);
-
-        // Update video
-        await video.update({ cover: destination });
-=======
         // Move file
         const videoFile = req.files.videoFile;
         const outputFile = await encoding.normalize(videoFile.name);
@@ -103,7 +81,6 @@ module.exports.uploadThumb = async (req, res, next) => {
 
         // Update thumbnail
         await video.update({ thumbnail: destination });
->>>>>>> old-project-state
         res.status(200).json(video);
     }
     catch (error) {

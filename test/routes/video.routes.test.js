@@ -43,23 +43,6 @@ describe('Get videos: ', () => {
                 done();
             });
     });
-<<<<<<< HEAD
-    /**
-     * Get an existing video correctly
-     */
-    it('should get all videos', (done) => {
-        chai.request(app)
-            .get(VIDEO_URI)
-            .end((err, res) => {
-                expect(res).to.have.status(200);
-                expect(res).to.be.json;
-                expect(res.body).to.be.array();
-                expect(res.body.length).to.equal(2);
-                done();
-            });
-    });
-
-=======
 
     /**
      * Get an existing video correctly
@@ -76,7 +59,6 @@ describe('Get videos: ', () => {
                 done();
             });
     });
->>>>>>> old-project-state
 });
 
 describe('Create videos: ', () => {
@@ -177,11 +159,6 @@ describe('Create videos: ', () => {
                 done();
             });
     });
-<<<<<<< HEAD
-});
-
-describe('Upload video covers: ', () => {
-=======
 
     /**
      * A video can have a description
@@ -207,7 +184,6 @@ describe('Upload video covers: ', () => {
 });
 
 describe('Upload videos: ', () => {
->>>>>>> old-project-state
 
     /**
      * Populate database with some data before all the tests in this suite.
@@ -216,12 +192,9 @@ describe('Upload videos: ', () => {
         await utils.populateVideos();
         await utils.populateUsers();
         token = await utils.login('Username1', 'Password1');
-<<<<<<< HEAD
-=======
         // Mock normalize function
         sinon.stub(mediaEncoding, 'normalize').resolves('/videos/video-2.mp4'); // Do nothing
         sinon.stub(mediaEncoding, 'createThumbnail').resolves('/images/video-2.jpg'); // Do nothing
->>>>>>> old-project-state
     });
 
     /**
@@ -230,33 +203,6 @@ describe('Upload videos: ', () => {
     after(async () => {
         await utils.dropVideos();
         await utils.dropUsers();
-<<<<<<< HEAD
-    });
-
-    /**
-     * A Video cover should be uploaded correctly
-     */
-    it('should upload a Video cover', (done) => {
-        chai.request(app)
-            .post(VIDEO_URI + '/2/upload')
-            .set('Authorization', 'Bearer ' + token)
-            //.attach('coverFile', fs.readFileSync('./test/assets/cover.png'), 'cover.png')
-            .end((err, res) => {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body.id).to.be.equal(2);
-            expect(res.body.title).to.be.equal('title');
-            expect(res.body.author).to.be.equal('author');
-            expect(res.body.id).to.equal(3);
-            done();
-            });
-    }).timeout(5000);  // Timeout 5 secs
-
-
-    /**
-     * TODO: tests for invalid upoloads
-     */
-=======
         // Restore normalize function
         mediaEncoding.normalize.restore();
         mediaEncoding.createThumbnail.restore();
@@ -359,5 +305,4 @@ describe('Upload thumbnails: ', () => {
             });
     }).timeout(5000);  // Timeout 5 secs
 
->>>>>>> old-project-state
 });
