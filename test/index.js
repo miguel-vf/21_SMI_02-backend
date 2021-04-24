@@ -1,5 +1,5 @@
 const app = require('../app/app');
-//const db = require('../app/models');
+const db = require('../app/models');
 let server;
 
 // Wait for Express to be running
@@ -8,10 +8,10 @@ before(done => {
 });
 
 require('./routes/video.routes.test');
-//require('./routes/auth.routes.test');
+require('./routes/auth.routes.test');
 
 // Shutdown server
-after(done => {
-    server.close(done);
-    //await db.sequelize.close();
+after(async () => {
+    server.close();
+    await db.sequelize.close();
 });

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "set NODE_ENV=development&&node -r dotenv/config index.js",
-    "test": "set NODE_ENV=test&&mocha test/index.js"
+    "test": "set NODE_ENV=test&&mocha -r dotenv/config test/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +28,7 @@
     "chai-arrays": "^2.2.0",
     "chai-http": "^4.3.0",
     "dotenv": "^8.2.0",
-    "mocha": "^8.3.2"
+    "mocha": "^8.3.2",
+    "sinon": "^10.0.0"
   }
 }
