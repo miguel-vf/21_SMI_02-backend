@@ -13,7 +13,7 @@ exports.normalize = (videoFileName) => {
         const parsedFilename = path.parse(videoFileName);
         const outputFilename = `${parsedFilename.name}.mp4`;
         const outputFilenamePath = `/videos/${outputFilename}`
-        const command = `ffmpeg -y -i ${videoFileName} ${outputFilenamePath}`;
+        const command = `echo "ffmpeg -y -i ${videoFileName} ${outputFilenamePath}"`;
 
         // /videos is the shared volume with nginx http server
         if (!formats.includes(parsedFilename.ext)) {
