@@ -36,16 +36,22 @@ module.exports.upload = async (req, res, next) => {
 
         // Move file
         const videoFile = req.files.videoFile;
-        const outputFile = await encoding.normalize(videoFile.name);
-        //const extension = path.extname(videoFile.name);     // 
-        const extension = path.extname(outputFile);
-        const destination = '/videos/video-' + video.id + extension;
-        videoFile.mv(destination);
+        const extension = path.extname(videoFile.name);
+        const videoFilename = 'video-' + video.id;
+        const localFile = '/uploads/' + videoFilename + extension;
+        videoFile.mv(localFile);
+        
+        const outputFile = await encoding.normalize(localFile);
+        //
+        //const extension = path.extname(outputFile);
+        //const destination = '/videos/video-' + video.id + extension;
+        
 
         // Update video
-        await video.update({ file: destination });
+        await video.update({ file: outputFile });
 
         // Move file
+        /*
         const thumbFile = req.files.videoFile;
         const outFileT = await encoding.createThumbnail(thumbFile.name);
         //const extension = path.extname(videoFile.name);     // 
@@ -55,6 +61,7 @@ module.exports.upload = async (req, res, next) => {
 
         // Update thumbnail
         await video.update({ thumbnail: destinationT });
+        */
         res.status(200).json(video);
     }
     catch (error) {
