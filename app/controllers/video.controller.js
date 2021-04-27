@@ -68,7 +68,7 @@ module.exports.upload = async (req, res, next) => {
         const localFileT = '/uploads/' + thumbFilename + extensionT;
         thumbFile.mv(localFileT);
         
-        const outputFileT = await encoding.createThumbnail(thumbFile);
+        const outputFileT = await encoding.createThumbnail(localFileT);
 
         await video.update({ thumbnail: outputFileT });
 
