@@ -37,7 +37,7 @@ exports.createThumbnail = (videoFileName) => {
       // /videos is the shared volume with nginx http server
       const outputFilenamePath = `/images/${outputFilename}`;
       // ffmpeg command to extract a frame at the beginning of video and copy it to ${outputFilePath} 
-      const command = `echo "ffmpeg -ss 00:00:01 -i ${videoFileName} -vframes 1 -q:v 4 ${outputFilenamePath}"`;
+      const command = `ffmpeg -ss 00:00:01 -i ${videoFileName} -vframes 1 -q:v 4 ${outputFilenamePath}`;
 
       // Encode
       child_process.exec(command, (err, stdout, stderr) => {
